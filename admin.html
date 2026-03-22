@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mural Admin - Completo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        
+        /* Grid de Seleção */
+        .img-selectable {
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        .img-selectable:hover { transform: scale(1.02); }
+        .img-selectable.selected {
+            border-color: #4f46e5;
+            position: relative;
+            transform: scale(0.95);
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.4);
+        }
+        .img-selectable.selected::after {
+            content: '\f00c'; /* FontAwesome Check */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 4px; right: 4px;
+            background: #4f46e5; color: white;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px;
+        }
+
+        /* Modal */
+        #editModal { background-color: rgba(0, 0, 0, 0.5); z-index: 50; }
+    </style>
+</head>
+<body class="min-h-screen pb-20">
+
+    <div id="login-screen" class="min-h-screen flex items-center justify-center bg-gray-100">
+        <div class="bg-white p-8 rounded-xl shadow-xl w-96">
+            <h2 class="text-2xl font-bold mb-4 text-center">Admin Mural</h2>
+            <input type="email" id="email" placeholder="Email" class="w-full mb-3 p-2 border rounded">
+            <input type="password" id="password" placeholder="Senha" class="w-full mb-4 p-2 border rounded">
+            <button id="login-button" class="w-full bg-indigo-600 text-white py-2 rounded font-bold hover:bg-indigo-700">Entrar</button>
+            <p id="login-error" class="text-red-500 text-sm mt-2 text-center"></p>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="hidden max-w-[1400px] mx-auto p-4 lg:p-6">
+        
+        <header class="flex flex-col md:flex-row justify-between items-center mb-6 bg-white p-4 rounded-lg shadow gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800"><i class="fas fa-desktop text-indigo-600"></i> Gerenciador de Culto</h1>
+            </div>
+            <div class="flex gap-2">
+                 <button id="btn-refresh-drive" class="bg-gray-100 text-gray-700 px-4 py-2 rounded hover:bg-gray-200 border">
+                    <i class="fas fa-sync"></i> Recarregar Drive
+                </button>
+                <button id="logout-button" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Sair</button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <div class="lg:col-span-7 space-y-4">
+                
+                <div class="bg-white p-3 rounded-lg border shadow-sm flex justify-between items-center sticky top-2 z-10">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-gray-700 text-sm">Fotos Disponíveis</span>
+                        <span id="selection-count" class="bg-indigo-600 text-white text-xs px-2 py-1 rounded-full">0</span>
+                    </div>
+                    <div class="text-xs space-x-2">
+                        <button onclick="selectAll()" class="text-indigo-600 font-bold hover:underline">Tudo</button>
+                        <span>|</span>
+                        <button onclick="deselectAll()" class="text-gray-500 hover:text-gray-700">Nada</button>
+                    </div>
+                </div>
+
+                <div id="drive-gallery" class="grid grid-cols-4 sm:grid-cols-5 gap-2 bg-white p-4 rounded-lg shadow h-[500px] overflow-y-auto content-start">
+                    <p class="col-span-full text-center text-gray-500 py-20">Carregando...</p>
+                </div>
+
+                <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-200 shadow-md">
+                    <h3 class="text-sm font-bold text-indigo-900 mb-3"><i class="fas fa-sliders-h"></i> Configurar Selecionados (Lote)</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                        <div class="md:col-span-2">
+                            <label class="text-xs font-semibold text-gray-600">Legenda (Opcional)</label>
+                            <input type="text" id="bulk-text" placeholder="Ex: Culto da Família" class="w-full border rounded p-2 text-sm">
+                        </div>
+                        
+                        <div>
+                            <label class="text-xs font-semibold text-gray-600">Duração (seg)</label>
+                            <input type="number" id="bulk-duration" value="5" min="3" class="w-full border rounded p-2 text-sm">
+                        </div>
+
+                        <div class="flex gap-2">
+                            <div class="flex-1">
+                                <label class="text-xs font-semibold text-gray-600">Início (HH:MM)</label>
+                                <input type="time" id="bulk-start" class="w-full border rounded p-2 text-sm">
+                            </div>
+                            <div class="flex-1">
+                                <label class="text-xs font-semibold text-gray-600">Fim (HH:MM)</label>
+                                <input type="time" id="bulk-end" class="w-full border rounded p-2 text-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="btn-publish-selected" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg shadow transition transform hover:scale-[1.01] opacity-50 cursor-not-allowed">
+                        PUBLICAR NO TELÃO
+                    </button>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5 space-y-6">
+                
+                <div class="bg-white p-4 rounded-xl shadow border-l-4 border-red-500 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-bold text-red-700">Novo Culto</h3>
+                        <p class="text-xs text-gray-500">Apaga todas as fotos atuais.</p>
+                    </div>
+                    <button id="btn-wipe-photos" class="bg-red-100 text-red-700 px-4 py-2 rounded text-sm font-bold hover:bg-red-600 hover:text-white transition">
+                        Limpar Telão
+                    </button>
+                </div>
+
+                <div class="bg-gray-100 p-4 rounded-xl border border-gray-200 h-[600px] flex flex-col">
+                    <h3 class="font-bold text-gray-700 mb-2 flex justify-between">
+                        <span>No Ar Agora</span>
+                        <span id="active-count" class="text-xs bg-gray-300 px-2 py-1 rounded">0</span>
+                    </h3>
+                    
+                    <div id="active-list" class="flex-1 overflow-y-auto space-y-3 pr-2">
+                        </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow border border-gray-200">
+                    <h4 class="text-sm font-bold text-gray-700 mb-2">Aviso Apenas Texto</h4>
+                    <div class="flex gap-2">
+                        <input type="text" id="manual-text" placeholder="Digite um aviso rápido..." class="flex-1 border rounded p-2 text-sm">
+                        <button id="btn-send-text" class="bg-gray-800 text-white px-4 rounded text-sm font-bold hover:bg-black">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editModal" class="fixed inset-0 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-md p-6 relative animate-fade-in">
+            <h3 class="text-lg font-bold mb-4 border-b pb-2">Editar Item</h3>
+            <input type="hidden" id="edit-id">
+            
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Ordem</label>
+                    <input type="number" id="edit-order" class="w-full border rounded p-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Legenda / Texto</label>
+                    <textarea id="edit-text" rows="3" class="w-full border rounded p-2"></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Duração (s)</label>
+                        <input type="number" id="edit-duration" class="w-full border rounded p-2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Tipo</label>
+                        <input type="text" id="edit-type" disabled class="w-full border rounded p-2 bg-gray-100 text-gray-500">
+                    </div>
+                </div>
+                 <div class="bg-blue-50 p-2 rounded">
+                    <p class="text-xs font-bold text-blue-800 mb-1">Reagendar (Opcional)</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="time" id="edit-start" class="border rounded p-1 text-sm">
+                        <input type="time" id="edit-end" class="border rounded p-1 text-sm">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end gap-2">
+                <button id="close-modal" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded">Cancelar</button>
+                <button id="save-edit" class="px-4 py-2 bg-indigo-600 text-white rounded font-bold hover:bg-indigo-700">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="admin.js?v=final2"></script>
+</body>
+</html>

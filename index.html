@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mural Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #000; }
+
+        /* ===== LAYOUT GERAL ===== */
+        #app {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: stretch;
+        }
+
+        /* ===== COLUNA ESQUERDA — LOGO ===== */
+        #logo-area {
+            width: 160px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 12px;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255,255,255,0.06);
+            z-index: 50;
+            gap: 16px;
+        }
+
+        #logo-area img {
+            width: 120px;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+        }
+
+        /* ===== ÁREA CENTRAL — SLIDES ===== */
+        #center-area {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #mural-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 60px;
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 10;
+        }
+
+        .slide-content h1 {
+            background-color: rgba(0,0,0,0.7);
+            padding: 16px 36px;
+            border-radius: 15px;
+            font-size: 1.8rem;
+            text-shadow: 2px 2px 2px black;
+            text-align: center;
+            max-width: 90%;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        /* ===== COLUNA DIREITA — TEMPERATURA ===== */
+        #weather-panel {
+            width: 160px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 12px;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(255,255,255,0.06);
+            z-index: 50;
+            gap: 8px;
+            text-align: center;
+        }
+
+        #weather-emoji {
+            font-size: 3rem;
+            line-height: 1;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+            transition: all 0.6s ease;
+        }
+
+        #weather-temp {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+            letter-spacing: -0.03em;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+            transition: all 0.6s ease;
+        }
+
+        #weather-minmax {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.6s ease;
+            margin-top: -4px;
+            margin-bottom: 4px;
+        }
+
+        #weather-minmax span {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .temp-min { color: #82caFF; }
+        .temp-max { color: #ff8a80; }
+
+        #weather-city {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.65);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            line-height: 1.3;
+            transition: all 0.6s ease;
+        }
+
+        #weather-divider {
+            width: 40px;
+            height: 1px;
+            background: rgba(255,255,255,0.15);
+            margin: 4px 0;
+        }
+
+        #clock {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.85);
+            letter-spacing: 0.08em;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+        }
+
+        #weather-loading-msg {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.35);
+            font-style: italic;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.35; }
+            50%       { opacity: 0.9; }
+        }
+
+        /* Animação de fade ao trocar cidade */
+        .weather-fade {
+            animation: weatherFadeIn 0.6s ease forwards;
+        }
+
+        @keyframes weatherFadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Crédito */
+        #credit {
+            position: fixed;
+            bottom: 6px;
+            right: 168px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.12);
+            z-index: 9;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            #logo-area, #weather-panel { width: 90px; }
+            #weather-temp { font-size: 1.8rem; }
+            #weather-emoji { font-size: 2rem; }
+            .slide-content h1 { font-size: 1.2rem; padding: 10px 20px; }
+        }
+    </style>
+</head>
+
+<body class="h-screen w-screen overflow-hidden text-white bg-black">
+
+    <!-- Vídeo de tela preta: mantém a TV ativa e evita proteção de tela -->
+    <div class="fixed top-0 left-0 w-full h-full -z-20 overflow-hidden pointer-events-none">
+        <iframe
+            src="https://www.youtube.com/embed/rq1-UW6LbY0?autoplay=1&mute=1&controls=0&loop=1&playlist=rq1-UW6LbY0&showinfo=0&rel=0&iv_load_policy=3&playsinline=1"
+            class="w-[300%] h-[300%] -ml-[100%] -mt-[100%] object-cover"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <div id="app">
+
+        <!-- ESQUERDA: Logo da igreja -->
+        <div id="logo-area">
+            <!-- Coloque aqui a tag <img> com o logo da igreja -->
+            <!-- Exemplo: <img src="logo.png" alt="Logo Somos Igreja"> -->
+        </div>
+
+        <!-- CENTRO: Slides do mural -->
+        <div id="center-area">
+            <div id="mural-container" class="flex items-center justify-center text-center">
+                <h1 class="text-xl text-gray-600 animate-pulse">...</h1>
+            </div>
+        </div>
+
+        <!-- DIREITA: Temperatura da cidade atual -->
+        <div id="weather-panel">
+            <div id="weather-emoji">🌡️</div>
+            <div id="weather-temp">--°</div>
+            <div id="weather-minmax">
+                <span class="temp-min" title="Mínima">⬇ <span id="weather-min">--°</span></span>
+                <span style="color: rgba(255,255,255,0.2);">|</span>
+                <span class="temp-max" title="Máxima">⬆ <span id="weather-max">--°</span></span>
+            </div>
+            <div id="weather-city">
+                <span id="weather-loading-msg">Buscando...</span>
+            </div>
+            <div id="weather-divider"></div>
+            <div id="clock">00:00</div>
+        </div>
+
+    </div>
+
+    <div id="credit">Desenvolvido por André Francelino</div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('clock').innerText =
+                now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+
+    <script type="module" src="mural.js?v=15"></script>
+
+</body>
+</html>
