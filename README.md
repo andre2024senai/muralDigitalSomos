@@ -1,5 +1,4 @@
-<img width="1360" height="546" alt="screenshot-display" src="https://github.com/user-attachments/assets/3976b25e-80bc-43a6-bb1a-f1f207c215bf" />
-<img width="1364" height="588" alt="screenshot-admin" src="https://github.com/user-attachments/assets/5f2eefe1-d975-487c-b477-f786a919eae8" />
+
 #  Digital Mural — Real-Time Event Display System
 
 A **real-time digital signage platform** designed for live events, organizations, and community spaces.
@@ -106,12 +105,12 @@ Firebase Hosting (Deployment)
 
 ###  Public Display
 
-<img width="1360" height="546" alt="screenshot-display" src="https://github.com/user-attachments/assets/8c47b916-527b-4a14-8c60-a2bd6368b887" />
+<img width="800" height="546" alt="screenshot-display" src="https://github.com/user-attachments/assets/8c47b916-527b-4a14-8c60-a2bd6368b887" />
 
 
 ###  Admin Panel
 
-<img width="1364" height="588" alt="screenshot-admin" src="https://github.com/user-attachments/assets/72b46df4-2099-42b1-acec-4618c9ccedc2" />
+<img width="800" height="588" alt="screenshot-admin" src="https://github.com/user-attachments/assets/72b46df4-2099-42b1-acec-4618c9ccedc2" />
 
 
 ---
