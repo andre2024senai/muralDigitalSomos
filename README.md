@@ -1,4 +1,4 @@
-# 📸 Digital Church Mural
+# Digital Church Mural
 
 A real-time digital photo mural built for a church community, displayed on an LG TV via browser. Church staff can manage content through an admin panel — no technical knowledge required.
 
@@ -10,13 +10,13 @@ A real-time digital photo mural built for a church community, displayed on an LG
 
 ---
 
-## 🎯 Project Overview
+## Project Overview
 
 This project solves a real communication problem for a church community. Instead of printed posters or manual slideshows, photos uploaded to a shared Google Drive folder are automatically displayed on a TV screen in the church — in real time, with no manual intervention after setup.
 
 ---
 
-## ✨ Features
+##  Features
 
 - **Real-time sync** — Photos uploaded to Google Drive appear automatically on the display
 - **Admin panel** — Left sidebar navigation with mural manager, refresh and publish controls, and a notifications area
@@ -26,7 +26,7 @@ This project solves a real communication problem for a church community. Instead
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 Google Drive Folder
@@ -43,7 +43,7 @@ Firebase (Real-time sync + Hosting)
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 muralDigitalSomos/
@@ -59,7 +59,7 @@ muralDigitalSomos/
 
 ---
 
-## 🚀 How It Works
+## How It Works
 
 1. A church staff member uploads photos to a designated **Google Drive folder**
 2. The **Google Drive API** (via Google Cloud) fetches the images
@@ -69,7 +69,7 @@ muralDigitalSomos/
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |---|---|
@@ -80,7 +80,7 @@ muralDigitalSomos/
 
 ---
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Node.js installed
 - Firebase CLI (`npm install -g firebase-tools`)
@@ -89,7 +89,7 @@ muralDigitalSomos/
 
 ---
 
-## ⚙️ Setup
+## Setup
 
 ```bash
 # Clone the repository
@@ -106,26 +106,22 @@ firebase login
 firebase deploy
 ```
 
-> ⚠️ **Note:** You will need to configure your own Google Drive API credentials and Firebase project settings before running the project.
+> **Note:** You will need to configure your own Google Drive API credentials and Firebase project settings before running the project.
 
 ---
 
-## 📸 Screenshots
+##  Screenshots
 
 > *(Add screenshots of the mural display and admin panel here)*
 
 ---
 
-## 👨‍💻 Author
+##  Author
 
 **André Francelino de Souza**
 Java Backend Developer | Systems Development Instructor at SENAI Brazil
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/your-profile)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/andre-francelino-a8ab7067)
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white)](https://github.com/andre2024senai)
 
 ---
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
