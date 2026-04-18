@@ -9,9 +9,7 @@ Content is managed through a web-based admin panel and instantly broadcast to an
 
 ##  Live Demo
 
- https://your-project.web.app *(replace with your Firebase URL)*
-
-*(Optional but highly recommended: add a GIF or short video here showing the system in action)*
+ [https://your-project.web.app](https://muraldigital-71926js.web.app/) 
 
 ---
 
