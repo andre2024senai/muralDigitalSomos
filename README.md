@@ -3,7 +3,7 @@
 A **real-time digital signage platform** designed for live events, organizations, and community spaces.
 Content is managed through a web-based admin panel and instantly broadcast to any screen using just a browser.
 
-> 🚀 Currently running in production (live environment)
+>  Currently running in production (live environment)
 
 ---
 
@@ -13,7 +13,7 @@ Content is managed through a web-based admin panel and instantly broadcast to an
 
 ---
 
-## 🎯 Overview
+##  Overview
 
 Digital Mural replaces static slides and manual presentation workflows with a **fully automated, real-time content delivery system**.
 
@@ -23,7 +23,7 @@ Non-technical users can upload images, schedule slides, and send live announceme
 
 ##  Key Features
 
-### 📺 Public Display
+###  Public Display
 
 * Real-time slideshow synced from cloud storage
 * Live clock and weather widget
@@ -101,11 +101,11 @@ Firebase Hosting (Deployment)
 
 ![Login Screen](screenshot-login.png)
 
-### 📺 Public Display
+###  Public Display
 
 ![Public Display](screenshot-display.png)
 
-### 🎛️ Admin Panel
+###  Admin Panel
 
 ![Admin Panel](screenshot-admin.png)
 
