@@ -105,12 +105,12 @@ Firebase Hosting (Deployment)
 
 ###  Public Display
 
-<img width="800" height="546" alt="screenshot-display" src="https://github.com/user-attachments/assets/8c47b916-527b-4a14-8c60-a2bd6368b887" />
+<img width="1369" height="546" alt="screenshot-display" src="https://github.com/user-attachments/assets/8c47b916-527b-4a14-8c60-a2bd6368b887" />
 
 
 ###  Admin Panel
 
-<img width="800" height="588" alt="screenshot-admin" src="https://github.com/user-attachments/assets/72b46df4-2099-42b1-acec-4618c9ccedc2" />
+<img width="1360" height="588" alt="screenshot-admin" src="https://github.com/user-attachments/assets/72b46df4-2099-42b1-acec-4618c9ccedc2" />
 
 
 ---
