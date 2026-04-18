@@ -9,7 +9,7 @@ Content is managed through a web-based admin panel and instantly broadcast to an
 
 ##  Live Demo
 
- [https://your-project.web.app](https://muraldigital-71926js.web.app/) 
+ [Digital Mural](https://muraldigital-71926js.web.app/) 
 
 ---
 
