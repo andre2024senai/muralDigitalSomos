@@ -1,3 +1,4 @@
+<img width="1360" height="546" alt="screenshot-display" src="https://github.com/user-attachments/assets/3976b25e-80bc-43a6-bb1a-f1f207c215bf" />
 <img width="1364" height="588" alt="screenshot-admin" src="https://github.com/user-attachments/assets/5f2eefe1-d975-487c-b477-f786a919eae8" />
 #  Digital Mural — Real-Time Event Display System
 
@@ -100,11 +101,13 @@ Firebase Hosting (Deployment)
 
 ###  Admin Login
 
-![Login Screen](screenshot-login.png)
+<img width="492" height="376" alt="screenshot-login" src="https://github.com/user-attachments/assets/9523d9c1-02fa-489f-91da-6b9c71644501" />
+
 
 ###  Public Display
 
-![Public Display](screenshot-display.png)
+<img width="1360" height="546" alt="screenshot-display" src="https://github.com/user-attachments/assets/8c47b916-527b-4a14-8c60-a2bd6368b887" />
+
 
 ###  Admin Panel
 
